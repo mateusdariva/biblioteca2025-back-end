@@ -6,7 +6,7 @@ import categoria from "./controller/CategoriaController.js";
 import livro from "./controller/LivroController.js";
 import usuario from "./controller/UsuarioController.js";
 import emprestimo from "./controller/EmprestimoController.js";
-import devolver from "./controller/DevolverController.js";
+import devolucao from "./controller/DevolucaoController.js";
 
 try {
     await banco.authenticate();
@@ -64,6 +64,6 @@ app.post('/emprestar', emprestimo.emprestar);
 app.put('/devolver/:id', emprestimo.devolver);
 
 // Devolução
-app.post('/devolver', devolver.devolver);
+app.post("/devolver", devolucao);
 
 app.listen(3000, () => { console.log(`Servidor rodando.`) });
