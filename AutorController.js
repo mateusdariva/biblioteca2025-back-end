@@ -22,7 +22,6 @@ async function alterar(req, res) {
     const biografia = req.body.biografia;
     const nacionalidade = req.body.nacionalidade;
     const foto = req.body.foto;
-
     const idautor = req.params.id;
 
     const respostaBanco = await Autor.update(

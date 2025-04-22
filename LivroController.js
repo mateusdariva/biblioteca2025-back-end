@@ -1,4 +1,6 @@
 import Livro from "../model/LivroModel.js";
+import Emprestimo from "../model/EmprestimoModel.js";
+import Devolucao from "../model/DevolucaoModel.js";
 
 async function listar(req, res) {
     const respostaBanco = await Livro.findAll();
@@ -42,6 +44,44 @@ async function excluir(req, res) {
 
     const respostaBanco = await Livro.destroy({ where: { idlivro } });
     res.json(respostaBanco);
-}
+};
 
-export default { listar, selecionar, inserir, alterar, excluir };
+const listardisponiveis = async (req, res) => {
+    try {
+        const idlivro = await Livro.findAll({
+            where: {
+                ativo: true
+            },
+            include: [
+                {
+                    model: Emprestimo,
+                    required: false,
+                    include: [
+                        {
+                            model: Devolucao,
+                            required: false
+                        }
+                    ]
+                }
+            ]
+        });
+
+        const disponiveis = idlivro.filter(livro => {
+            if (!livro.emprestimos || livro.emprestimos.length === 0) return true;
+
+            return livro.emprestimos.every(emp => emp.devolucao);
+        });
+
+        res.status(200).json(disponiveis);
+    } catch (error) {
+        console.error('Erro ao buscar livros disponíveis:', error);
+        res.status(500).json({ erro: 'Erro interno no servidor' });
+    }
+};
+
+
+
+export default { listar, selecionar, inserir, alterar, excluir, listardisponiveis};
+
+
+
