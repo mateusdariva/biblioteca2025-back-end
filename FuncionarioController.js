@@ -35,5 +35,19 @@ async function alterar(req, res) {
         { where: { idfuncionario } });
     res.json(respostaBanco);
 }
+async function demitir(req, res) {
+    const idfuncionario = req.params.id;
 
-export default { listar, selecionar, inserir, alterar };
+    
+    const demissao = moment().format("YYYY-MM-DD");
+
+    
+    const respostaBanco = await Funcionario.update(
+        { demissao, ativo: false }, 
+        { where: { idfuncionario } }
+    );
+
+    res.json(respostaBanco);
+}
+
+export default { listar, selecionar, inserir, alterar, demitir };
