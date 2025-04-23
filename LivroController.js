@@ -58,8 +58,8 @@ const listardisponiveis = async (req, res) => {
                     required: false,
                     include: [
                         {
-                            model: Devolucao,
-                            required: false
+                        model: Devolucao,
+                        required: false
                         }
                     ]
                 }
@@ -79,9 +79,22 @@ const listardisponiveis = async (req, res) => {
     }
 };
 
+async function listarpendentes(req, res) {
+    try {
+        const emprestimosPendentes = await Emprestimo.findAll({
+            where: {
+                devolucao: null
+            }
+        });
 
+        res.json(emprestimosPendentes);
+    } catch (error) {
+        console.error("Erro ao listar empréstimos pendentes:", error);
+        res.status(500).send("Erro interno ao buscar empréstimos pendentes.");
+    }
+}
 
-export default { listar, selecionar, inserir, alterar, excluir, listardisponiveis};
+export default { listar, selecionar, inserir, alterar, excluir, listardisponiveis, listarpendentes};
 
 
 

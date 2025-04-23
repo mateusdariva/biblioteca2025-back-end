@@ -52,6 +52,7 @@ app.post('/livro', livro.inserir);
 app.put('/livro/:id', livro.alterar);
 app.delete('/livro/:id', livro.excluir);
 app.get('/livro', livro.listardisponiveis);
+app.get('/livro', livro.listarpendentes);
 
 //rotas crud da tabela usuario
 app.get('/usuario', usuario.listar);

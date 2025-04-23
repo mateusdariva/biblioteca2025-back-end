@@ -37,10 +37,8 @@ async function alterar(req, res) {
 }
 async function demitir(req, res) {
     const idfuncionario = req.params.id;
-
     
     const demissao = moment().format("YYYY-MM-DD");
-
     
     const respostaBanco = await Funcionario.update(
         { demissao, ativo: false }, 
